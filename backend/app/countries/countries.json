@@ -1,0 +1,52 @@
+{
+  "US": {
+    "name": "United States",
+    "currency": "USD",
+    "essentials": { "housing": 1500, "food": 400, "utilities": 200, "transport": 150 }
+  },
+  "VN": {
+    "name": "Vietnam",
+    "currency": "VND",
+    "essentials": { "housing": 5000000, "food": 3000000, "utilities": 800000, "transport": 500000 }
+  },
+  "UK": {
+    "name": "United Kingdom",
+    "currency": "GBP",
+    "essentials": { "housing": 1200, "food": 350, "utilities": 180, "transport": 140 }
+  },
+  "CA": {
+    "name": "Canada",
+    "currency": "CAD",
+    "essentials": { "housing": 1800, "food": 450, "utilities": 200, "transport": 160 }
+  },
+  "AU": {
+    "name": "Australia",
+    "currency": "AUD",
+    "essentials": { "housing": 1700, "food": 500, "utilities": 220, "transport": 170 }
+  },
+  "DE": {
+    "name": "Germany",
+    "currency": "EUR",
+    "essentials": { "housing": 1100, "food": 350, "utilities": 200, "transport": 90 }
+  },
+  "IN": {
+    "name": "India",
+    "currency": "INR",
+    "essentials": { "housing": 15000, "food": 8000, "utilities": 3000, "transport": 2500 }
+  },
+  "SG": {
+    "name": "Singapore",
+    "currency": "SGD",
+    "essentials": { "housing": 2500, "food": 600, "utilities": 200, "transport": 150 }
+  },
+  "JP": {
+    "name": "Japan",
+    "currency": "JPY",
+    "essentials": { "housing": 80000, "food": 40000, "utilities": 15000, "transport": 10000 }
+  },
+  "PH": {
+    "name": "Philippines",
+    "currency": "PHP",
+    "essentials": { "housing": 15000, "food": 8000, "utilities": 3000, "transport": 2000 }
+  }
+}
