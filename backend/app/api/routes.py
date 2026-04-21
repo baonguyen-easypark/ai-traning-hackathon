@@ -28,7 +28,10 @@ def countries():
 
 @router.post("/plan", response_model=PlanResponse)
 def create_plan(req: PlanRequest):
-    return calculate_plan(req)
+    try:
+        return calculate_plan(req)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
 
 
 @router.get("/plan/{plan_id}", response_model=PlanResponse)
