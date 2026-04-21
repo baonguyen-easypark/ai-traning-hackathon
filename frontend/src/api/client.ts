@@ -8,6 +8,11 @@ export async function createPlan(req: PlanRequest): Promise<PlanResponse> {
   return data;
 }
 
+export async function updatePlan(id: number, req: PlanRequest): Promise<PlanResponse> {
+  const { data } = await api.put<PlanResponse>(`/plan/${id}`, req);
+  return data;
+}
+
 export async function listCountries(): Promise<Country[]> {
   const { data } = await api.get<Country[]>("/countries");
   return data;
