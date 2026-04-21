@@ -1,17 +1,14 @@
 """Owner: Person 2 (Country Data).
 
 Provides baseline monthly cost-of-living per country (housing, food, utilities, transport).
-
-TODO (Person 2):
-  - Flesh out countries.json with realistic per-city or per-country numbers.
-  - Consider Numbeo or World Bank API integration as a stretch goal (cache responses).
-  - Handle unknown country codes with a sensible fallback.
+Values are sourced from Numbeo (2024) in each country's local currency.
 """
 import json
 from pathlib import Path
+from typing import Optional
 
 _DATA_PATH = Path(__file__).parent / "countries.json"
-_CACHE: dict | None = None
+_CACHE: Optional[dict] = None
 
 
 def _load() -> dict:
@@ -21,16 +18,35 @@ def _load() -> dict:
     return _CACHE
 
 
-def get_essentials(country_code: str) -> dict[str, float]:
-    """Monthly essentials (housing/food/utilities/transport) in the country's local currency."""
+def get_essentials(country_code: str, city: Optional[str] = None) -> dict[str, float]:
+    """Monthly essentials (housing/food/utilities/transport) in the country's local currency.
+
+    Raises ValueError for unknown country codes.
+    If city is provided and exists in the country's city tiers, returns city-level data.
+    """
     data = _load()
-    entry = data.get(country_code.upper()) or data["US"]
+    code = country_code.upper()
+    entry = data.get(code)
+    if entry is None:
+        raise ValueError(f"Unknown country code: {country_code!r}")
+
+    if city:
+        city_entry = entry.get("cities", {}).get(city)
+        if city_entry:
+            return city_entry["essentials"]
+
     return entry["essentials"]
 
 
 def list_countries() -> list[dict]:
     data = _load()
-    return [
-        {"code": code, "name": entry["name"], "currency": entry["currency"]}
-        for code, entry in data.items()
-    ]
+    result = []
+    for code, entry in data.items():
+        item = {"code": code, "name": entry["name"], "currency": entry["currency"]}
+        if "cities" in entry:
+            item["cities"] = [
+                {"code": city_code, "name": city_data["name"]}
+                for city_code, city_data in entry["cities"].items()
+            ]
+        result.append(item)
+    return result
