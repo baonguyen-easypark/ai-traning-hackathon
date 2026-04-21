@@ -35,19 +35,22 @@ def countries():
 
 @router.post("/plan", response_model=PlanResponse)
 def create_plan(req: PlanRequest, db: Session = Depends(get_db)):
-    row = Plan(
-        country=req.country,
-        currency=req.currency,
-        monthly_income=req.monthly_income,
-        savings_goal=req.savings_goal,
-        deadline=req.deadline,
-        current_savings=req.current_savings,
-        recurring=[r.model_dump() for r in req.recurring],
-    )
-    db.add(row)
-    db.commit()
-    db.refresh(row)
-    return calculate_plan(req).model_copy(update={"id": row.id})
+    try:
+        row = Plan(
+            country=req.country,
+            currency=req.currency,
+            monthly_income=req.monthly_income,
+            savings_goal=req.savings_goal,
+            deadline=req.deadline,
+            current_savings=req.current_savings,
+            recurring=[r.model_dump() for r in req.recurring],
+        )
+        db.add(row)
+        db.commit()
+        db.refresh(row)
+        return calculate_plan(req).model_copy(update={"id": row.id})
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
 
 
 @router.get("/plan/{plan_id}", response_model=PlanResponse)

@@ -2,51 +2,148 @@
   "US": {
     "name": "United States",
     "currency": "USD",
-    "essentials": { "housing": 1500, "food": 400, "utilities": 200, "transport": 150 }
+    "essentials": { "housing": 1500, "food": 420, "utilities": 150, "transport": 120 },
+    "cities": {
+      "NYC": { "name": "New York City", "essentials": { "housing": 3500, "food": 650, "utilities": 200, "transport": 133 } },
+      "SF":  { "name": "San Francisco",  "essentials": { "housing": 3200, "food": 580, "utilities": 180, "transport": 100 } },
+      "Austin": { "name": "Austin",      "essentials": { "housing": 1600, "food": 420, "utilities": 150, "transport": 80  } }
+    }
   },
-  "VN": {
-    "name": "Vietnam",
-    "currency": "VND",
-    "essentials": { "housing": 5000000, "food": 3000000, "utilities": 800000, "transport": 500000 }
-  },
-  "UK": {
+  "GB": {
     "name": "United Kingdom",
     "currency": "GBP",
-    "essentials": { "housing": 1200, "food": 350, "utilities": 180, "transport": 140 }
+    "essentials": { "housing": 1250, "food": 320, "utilities": 160, "transport": 130 },
+    "cities": {
+      "London":     { "name": "London",     "essentials": { "housing": 1900, "food": 380, "utilities": 180, "transport": 175 } },
+      "Manchester": { "name": "Manchester", "essentials": { "housing": 950,  "food": 280, "utilities": 140, "transport": 110 } }
+    }
   },
   "CA": {
     "name": "Canada",
     "currency": "CAD",
-    "essentials": { "housing": 1800, "food": 450, "utilities": 200, "transport": 160 }
+    "essentials": { "housing": 1900, "food": 480, "utilities": 180, "transport": 130 },
+    "cities": {
+      "Toronto":   { "name": "Toronto",   "essentials": { "housing": 2500, "food": 520, "utilities": 200, "transport": 156 } },
+      "Vancouver": { "name": "Vancouver", "essentials": { "housing": 2600, "food": 530, "utilities": 190, "transport": 100 } },
+      "Calgary":   { "name": "Calgary",   "essentials": { "housing": 1600, "food": 450, "utilities": 160, "transport": 110 } }
+    }
   },
   "AU": {
     "name": "Australia",
     "currency": "AUD",
-    "essentials": { "housing": 1700, "food": 500, "utilities": 220, "transport": 170 }
+    "essentials": { "housing": 1800, "food": 520, "utilities": 210, "transport": 170 },
+    "cities": {
+      "Sydney":    { "name": "Sydney",    "essentials": { "housing": 2600, "food": 580, "utilities": 230, "transport": 200 } },
+      "Melbourne": { "name": "Melbourne", "essentials": { "housing": 2200, "food": 550, "utilities": 220, "transport": 175 } },
+      "Brisbane":  { "name": "Brisbane",  "essentials": { "housing": 1900, "food": 500, "utilities": 200, "transport": 150 } }
+    }
   },
   "DE": {
     "name": "Germany",
     "currency": "EUR",
-    "essentials": { "housing": 1100, "food": 350, "utilities": 200, "transport": 90 }
+    "essentials": { "housing": 1100, "food": 360, "utilities": 200, "transport": 90 },
+    "cities": {
+      "Berlin":  { "name": "Berlin",  "essentials": { "housing": 1200, "food": 380, "utilities": 200, "transport": 86 } },
+      "Munich":  { "name": "Munich",  "essentials": { "housing": 1700, "food": 420, "utilities": 210, "transport": 57 } },
+      "Hamburg": { "name": "Hamburg", "essentials": { "housing": 1300, "food": 370, "utilities": 200, "transport": 115 } }
+    }
+  },
+  "FR": {
+    "name": "France",
+    "currency": "EUR",
+    "essentials": { "housing": 1100, "food": 350, "utilities": 150, "transport": 80 },
+    "cities": {
+      "Paris": { "name": "Paris", "essentials": { "housing": 1600, "food": 430, "utilities": 160, "transport": 86 } },
+      "Lyon":  { "name": "Lyon",  "essentials": { "housing": 900,  "food": 320, "utilities": 140, "transport": 75 } }
+    }
   },
   "IN": {
     "name": "India",
     "currency": "INR",
-    "essentials": { "housing": 15000, "food": 8000, "utilities": 3000, "transport": 2500 }
+    "essentials": { "housing": 15000, "food": 8000, "utilities": 3000, "transport": 2500 },
+    "cities": {
+      "Mumbai":    { "name": "Mumbai",    "essentials": { "housing": 30000, "food": 10000, "utilities": 4000, "transport": 3000 } },
+      "Bangalore": { "name": "Bangalore", "essentials": { "housing": 20000, "food": 9000,  "utilities": 3500, "transport": 2500 } },
+      "Delhi":     { "name": "Delhi",     "essentials": { "housing": 18000, "food": 8500,  "utilities": 3200, "transport": 2800 } }
+    }
   },
   "SG": {
     "name": "Singapore",
     "currency": "SGD",
-    "essentials": { "housing": 2500, "food": 600, "utilities": 200, "transport": 150 }
+    "essentials": { "housing": 2800, "food": 620, "utilities": 200, "transport": 128 }
   },
   "JP": {
     "name": "Japan",
     "currency": "JPY",
-    "essentials": { "housing": 80000, "food": 40000, "utilities": 15000, "transport": 10000 }
+    "essentials": { "housing": 85000, "food": 42000, "utilities": 14000, "transport": 12000 },
+    "cities": {
+      "Tokyo": { "name": "Tokyo", "essentials": { "housing": 110000, "food": 50000, "utilities": 16000, "transport": 10000 } },
+      "Osaka": { "name": "Osaka", "essentials": { "housing": 75000,  "food": 40000, "utilities": 13000, "transport": 9000  } },
+      "Fukuoka": { "name": "Fukuoka", "essentials": { "housing": 55000, "food": 35000, "utilities": 12000, "transport": 8000 } }
+    }
+  },
+  "KR": {
+    "name": "South Korea",
+    "currency": "KRW",
+    "essentials": { "housing": 900000, "food": 400000, "utilities": 150000, "transport": 80000 },
+    "cities": {
+      "Seoul":  { "name": "Seoul",  "essentials": { "housing": 1200000, "food": 480000, "utilities": 170000, "transport": 62000 } },
+      "Busan":  { "name": "Busan",  "essentials": { "housing": 700000,  "food": 360000, "utilities": 140000, "transport": 55000 } }
+    }
+  },
+  "VN": {
+    "name": "Vietnam",
+    "currency": "VND",
+    "essentials": { "housing": 5000000, "food": 3000000, "utilities": 800000, "transport": 500000 },
+    "cities": {
+      "HCM": { "name": "Ho Chi Minh City", "essentials": { "housing": 8000000, "food": 4000000, "utilities": 1000000, "transport": 600000 } },
+      "HAN": { "name": "Hanoi",            "essentials": { "housing": 6000000, "food": 3500000, "utilities": 900000,  "transport": 500000 } },
+      "DAN": { "name": "Da Nang",          "essentials": { "housing": 4000000, "food": 2500000, "utilities": 700000,  "transport": 400000 } }
+    }
   },
   "PH": {
     "name": "Philippines",
     "currency": "PHP",
-    "essentials": { "housing": 15000, "food": 8000, "utilities": 3000, "transport": 2000 }
+    "essentials": { "housing": 15000, "food": 9000, "utilities": 3500, "transport": 2500 },
+    "cities": {
+      "Manila":  { "name": "Manila",  "essentials": { "housing": 22000, "food": 12000, "utilities": 4500, "transport": 3000 } },
+      "Cebu":    { "name": "Cebu",    "essentials": { "housing": 12000, "food": 8000,  "utilities": 3000, "transport": 2000 } }
+    }
+  },
+  "BR": {
+    "name": "Brazil",
+    "currency": "BRL",
+    "essentials": { "housing": 2000, "food": 900, "utilities": 350, "transport": 250 },
+    "cities": {
+      "São Paulo":     { "name": "São Paulo",     "essentials": { "housing": 3000, "food": 1100, "utilities": 400, "transport": 200 } },
+      "Rio de Janeiro": { "name": "Rio de Janeiro", "essentials": { "housing": 2800, "food": 1000, "utilities": 380, "transport": 220 } }
+    }
+  },
+  "MX": {
+    "name": "Mexico",
+    "currency": "MXN",
+    "essentials": { "housing": 9000, "food": 3500, "utilities": 900, "transport": 700 },
+    "cities": {
+      "Mexico City": { "name": "Mexico City", "essentials": { "housing": 12000, "food": 4000, "utilities": 1000, "transport": 600 } },
+      "Guadalajara": { "name": "Guadalajara", "essentials": { "housing": 8000,  "food": 3200, "utilities": 850,  "transport": 650 } }
+    }
+  },
+  "TH": {
+    "name": "Thailand",
+    "currency": "THB",
+    "essentials": { "housing": 8000, "food": 5000, "utilities": 1500, "transport": 1200 },
+    "cities": {
+      "Bangkok":   { "name": "Bangkok",   "essentials": { "housing": 12000, "food": 6000, "utilities": 1800, "transport": 1200 } },
+      "Chiang Mai": { "name": "Chiang Mai", "essentials": { "housing": 7000, "food": 4000, "utilities": 1200, "transport": 1000 } }
+    }
+  },
+  "ID": {
+    "name": "Indonesia",
+    "currency": "IDR",
+    "essentials": { "housing": 3500000, "food": 2000000, "utilities": 500000, "transport": 400000 },
+    "cities": {
+      "Jakarta": { "name": "Jakarta", "essentials": { "housing": 6000000, "food": 3000000, "utilities": 700000, "transport": 500000 } },
+      "Bali":    { "name": "Bali",    "essentials": { "housing": 4000000, "food": 2500000, "utilities": 600000, "transport": 450000 } }
+    }
   }
 }
