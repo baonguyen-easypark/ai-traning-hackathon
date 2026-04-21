@@ -27,6 +27,7 @@ class CategoryBudget(BaseModel):
 
 
 class PlanResponse(BaseModel):
+    id: int | None = None
     daily_budget: float                                  # recommended discretionary spend per day
     weekly_budget: float
     monthly_budget: float

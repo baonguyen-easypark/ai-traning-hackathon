@@ -23,6 +23,7 @@ export interface CategoryBudget {
 }
 
 export interface PlanResponse {
+  id?: number;
   daily_budget: number;
   weekly_budget: number;
   monthly_budget: number;

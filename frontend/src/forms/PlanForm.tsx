@@ -8,14 +8,15 @@
  *  - Validation: income > 0, goal > current_savings, deadline in future
  */
 import { useEffect, useState } from "react";
-import { createPlan, listCountries } from "../api/client";
+import { listCountries } from "../api/client";
 import type { Country, PlanRequest, PlanResponse } from "../types/schemas";
 
 interface Props {
   onPlan: (plan: PlanResponse) => void;
+  submitPlan: (req: PlanRequest) => Promise<PlanResponse>;
 }
 
-export function PlanForm({ onPlan }: Props) {
+export function PlanForm({ onPlan, submitPlan }: Props) {
   const [countries, setCountries] = useState<Country[]>([]);
   const [form, setForm] = useState<PlanRequest>({
     country: "US",
@@ -33,7 +34,7 @@ export function PlanForm({ onPlan }: Props) {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const plan = await createPlan(form);
+    const plan = await submitPlan(form);
     onPlan(plan);
   };
 
