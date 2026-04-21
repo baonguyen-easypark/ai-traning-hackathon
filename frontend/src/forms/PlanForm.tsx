@@ -6,7 +6,7 @@ import { createPlan, listCountries } from "../api/client";
 import type { Country, PlanRequest, PlanResponse, RecurringExpense } from "../types/schemas";
 
 interface Props {
-  onPlan: (plan: PlanResponse) => void;
+  onPlan: (request: PlanRequest, plan: PlanResponse) => void;
 }
 
 const CATEGORIES = ["subscription", "fitness", "transport", "other"];
@@ -93,7 +93,7 @@ export function PlanForm({ onPlan }: Props) {
     setLoading(true);
     try {
       const plan = await createPlan(form);
-      onPlan(plan);
+      onPlan(form, plan);
     } catch (err) {
       setErrors(["Failed to calculate plan. Is the backend running?"]);
     } finally {
