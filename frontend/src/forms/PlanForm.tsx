@@ -2,12 +2,11 @@
  * Owner: Person 4 (Input Forms).
  */
 import { useEffect, useState } from "react";
-import { listCountries } from "../api/client";
+import { createPlan, listCountries } from "../api/client";
 import type { Country, PlanRequest, PlanResponse, RecurringExpense } from "../types/schemas";
 
 interface Props {
-  onPlan: (plan: PlanResponse) => void;
-  submitPlan: (req: PlanRequest) => Promise<PlanResponse>;
+  onPlan: (request: PlanRequest, plan: PlanResponse) => void;
 }
 
 const CATEGORIES = ["subscription", "fitness", "transport", "other"];
@@ -42,7 +41,7 @@ function validate(form: PlanRequest): string[] {
   return errors;
 }
 
-export function PlanForm({ onPlan, submitPlan }: Props) {
+export function PlanForm({ onPlan }: Props) {
   const [countries, setCountries] = useState<Country[]>([]);
   const [months, setMonths] = useState(12);
   const [loading, setLoading] = useState(false);
@@ -93,8 +92,8 @@ export function PlanForm({ onPlan, submitPlan }: Props) {
     setErrors([]);
     setLoading(true);
     try {
-      const plan = await submitPlan(form);
-      onPlan(plan);
+      const plan = await createPlan(form);
+      onPlan(form, plan);
     } catch (err) {
       setErrors(["Failed to calculate plan. Is the backend running?"]);
     } finally {
