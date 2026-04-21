@@ -2,6 +2,19 @@
 
 Pure functions that compute a spending plan from user inputs + country essentials.
 No framework coupling — easy to unit test with pytest.
+
+Math model
+----------
+1. remaining_to_goal   = max(goal - current_savings, 0)
+2. max_monthly_savings = max(income - essentials - recurring, 0)
+3. target_savings      = remaining_to_goal / months_until_deadline
+4. monthly_savings     = min(target_savings, max_monthly_savings)
+5. discretionary       = max_monthly_savings - monthly_savings
+6. months_to_goal      = remaining_to_goal / monthly_savings
+7. on_track            = projected_date <= deadline
+
+The plan saves only what's *needed* to hit the deadline (not everything
+possible) so leftover income becomes usable discretionary budget.
 """
 from datetime import date, timedelta
 
@@ -12,36 +25,23 @@ DAYS_PER_MONTH = 30.0
 WEEKS_PER_MONTH = 4.33
 
 
-def calculate_plan(req: PlanRequest) -> PlanResponse:
-    """Stub implementation — returns a valid PlanResponse so the API + UI can integrate.
+def calculate_plan(req: PlanRequest, today: date | None = None) -> PlanResponse:
+    today = today or date.today()
 
-    TODO (Person 1): refine the math. Consider:
-      - How much of leftover income should go to discretionary vs savings?
-      - What if income < essentials + recurring? (return on_track=False with guidance)
-      - Projected date should come from months_to_goal, not the deadline itself.
-      - Should we compound any assumed interest on current_savings?
-    """
     essentials = get_essentials(req.country)
     total_essentials = sum(essentials.values())
     total_recurring = sum(r.monthly_amount for r in req.recurring)
 
-    monthly_savings_capacity = req.monthly_income - total_essentials - total_recurring
-    remaining_to_goal = max(req.savings_goal - req.current_savings, 0)
+    remaining_to_goal = max(req.savings_goal - req.current_savings, 0.0)
+    max_monthly_savings = max(req.monthly_income - total_essentials - total_recurring, 0.0)
+    months_until_deadline = (req.deadline - today).days / DAYS_PER_MONTH
 
-    months_to_goal = (
-        remaining_to_goal / monthly_savings_capacity
-        if monthly_savings_capacity > 0
-        else float("inf")
-    )
-
-    # Split leftover: 30% discretionary, 70% savings (placeholder — Person 1 to tune).
-    discretionary = max(monthly_savings_capacity * 0.3, 0.0)
-    actual_savings = max(monthly_savings_capacity - discretionary, 0.0)
-
-    projected_date = (
-        date.today() + timedelta(days=int(months_to_goal * DAYS_PER_MONTH))
-        if months_to_goal != float("inf")
-        else req.deadline
+    monthly_savings, discretionary, months_to_goal, projected_date, on_track = _allocate(
+        remaining_to_goal=remaining_to_goal,
+        max_monthly_savings=max_monthly_savings,
+        months_until_deadline=months_until_deadline,
+        deadline=req.deadline,
+        today=today,
     )
 
     breakdown: list[CategoryBudget] = [
@@ -50,7 +50,7 @@ def calculate_plan(req: PlanRequest) -> PlanResponse:
     ]
     breakdown.append(CategoryBudget(category="recurring", monthly_amount=total_recurring, is_essential=False))
     breakdown.append(CategoryBudget(category="discretionary", monthly_amount=discretionary, is_essential=False))
-    breakdown.append(CategoryBudget(category="savings", monthly_amount=actual_savings, is_essential=False))
+    breakdown.append(CategoryBudget(category="savings", monthly_amount=monthly_savings, is_essential=False))
 
     return PlanResponse(
         daily_budget=discretionary / DAYS_PER_MONTH,
@@ -58,9 +58,45 @@ def calculate_plan(req: PlanRequest) -> PlanResponse:
         monthly_budget=discretionary,
         months_to_goal=months_to_goal,
         projected_date=projected_date,
-        on_track=projected_date <= req.deadline,
+        on_track=on_track,
         breakdown=breakdown,
         total_essentials=total_essentials,
         total_recurring=total_recurring,
-        monthly_savings=actual_savings,
+        monthly_savings=monthly_savings,
     )
+
+
+def _allocate(
+    *,
+    remaining_to_goal: float,
+    max_monthly_savings: float,
+    months_until_deadline: float,
+    deadline: date,
+    today: date,
+) -> tuple[float, float, float, date, bool]:
+    """Return (monthly_savings, discretionary, months_to_goal, projected_date, on_track)."""
+
+    # Goal already met — no saving needed; everything spare is discretionary.
+    if remaining_to_goal <= 0:
+        return 0.0, max_monthly_savings, 0.0, today, True
+
+    # Income doesn't cover essentials + recurring — no saving possible.
+    if max_monthly_savings <= 0:
+        return 0.0, 0.0, float("inf"), deadline, False
+
+    # Target savings rate required to hit the deadline. If the deadline is
+    # today or past, we need everything now — cap the target at inf so the
+    # min() below falls through to max_monthly_savings.
+    target_savings = (
+        remaining_to_goal / months_until_deadline
+        if months_until_deadline > 0
+        else float("inf")
+    )
+
+    monthly_savings = min(target_savings, max_monthly_savings)
+    discretionary = max_monthly_savings - monthly_savings
+    months_to_goal = remaining_to_goal / monthly_savings
+    projected_date = today + timedelta(days=int(round(months_to_goal * DAYS_PER_MONTH)))
+    on_track = projected_date <= deadline
+
+    return monthly_savings, discretionary, months_to_goal, projected_date, on_track
